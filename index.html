@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomolecules — JEE Cracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/smiles-drawer@2.0.1/dist/smiles-drawer.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a24;
+  --border: #2a2a3a;
+  --accent: #7c6aff;
+  --accent2: #ff6a6a;
+  --accent3: #6affd4;
+  --accent4: #ffd96a;
+  --text: #e8e8f0;
+  --text2: #9090a8;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --blue: #60a5fa;
+  --pink: #f472b6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 20%,rgba(124,106,255,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(106,255,212,0.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 20px}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:1.1rem;font-weight:800;color:var(--accent);letter-spacing:-0.5px;white-space:nowrap}
+.logo span{color:var(--accent3)}
+#searchbar{flex:1;min-width:180px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-family:'Syne',sans-serif;font-size:0.85rem;outline:none;transition:border 0.2s}
+#searchbar:focus{border-color:var(--accent)}
+#searchbar::placeholder{color:var(--text2)}
+.qf-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text2);font-family:'Syne',sans-serif;font-size:0.8rem;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.qf-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3));width:0%;transition:width 0.1s;z-index:200}
+
+/* MAIN */
+main{max-width:1100px;margin:0 auto;padding:30px 20px 80px;position:relative;z-index:1}
+
+/* HERO */
+.hero{text-align:center;padding:40px 0 30px}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:-1px}
+.hero h1 .g1{color:var(--accent)}
+.hero h1 .g2{color:var(--accent3)}
+.hero p{color:var(--text2);margin-top:12px;font-size:0.95rem;max-width:500px;margin-left:auto;margin-right:auto}
+.tag-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.tag{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:0.75rem;color:var(--text2)}
+
+/* SECTION NAV */
+.sec-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;position:sticky;top:65px;z-index:90;background:rgba(10,10,15,0.9);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--border)}
+.sec-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px 14px;color:var(--text2);font-size:0.78rem;cursor:pointer;transition:all 0.2s;font-family:'Syne',sans-serif}
+.sec-btn:hover,.sec-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* SECTION */
+.section{margin-bottom:50px}
+.section-title{font-size:1.6rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:12px;letter-spacing:-0.5px}
+.section-title .num{background:var(--accent);color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
+
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border 0.2s,transform 0.2s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-header{padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.card-title{font-weight:700;font-size:0.95rem}
+.card-arrow{color:var(--text2);transition:transform 0.3s;font-size:1.1rem}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{padding:0 18px 0;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s}
+.card.open .card-body{max-height:2000px;padding:0 18px 18px}
+
+/* CALLOUT BOXES */
+.callout{border-radius:8px;padding:12px 16px;margin:12px 0;font-size:0.88rem;line-height:1.6;border-left:3px solid}
+.callout.analogy{background:rgba(124,106,255,0.08);border-color:var(--accent)}
+.callout.logic{background:rgba(106,255,212,0.06);border-color:var(--accent3)}
+.callout.mnemonic{background:rgba(255,217,106,0.08);border-color:var(--accent4)}
+.callout.warning{background:rgba(255,106,106,0.08);border-color:var(--accent2)}
+.callout-icon{font-size:1rem;margin-right:6px}
+.callout p{color:var(--text);margin-top:4px}
+.callout strong{color:inherit}
+.qf-hide{transition:opacity 0.3s}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;margin:12px 0;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.83rem}
+th{background:var(--bg3);color:var(--accent);font-weight:700;padding:10px 14px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid rgba(42,42,58,0.6);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(124,106,255,0.04)}
+.yes{color:var(--green);font-weight:700}
+.no{color:var(--red);font-weight:700}
+.highlight{background:rgba(124,106,255,0.1)}
+
+/* FLOW ARROWS */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0;font-size:0.85rem}
+.flow-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px}
+.flow-arrow{color:var(--accent3);font-weight:700}
+
+/* SMILES STRUCTURES */
+.struct-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:12px 0}
+.struct-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all 0.2s}
+.struct-card:hover{border-color:var(--accent);transform:scale(1.02)}
+.struct-card canvas{max-width:100%;border-radius:4px}
+.struct-label{font-size:0.75rem;color:var(--text2);margin-top:6px;font-family:'Space Mono',monospace}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:500px;width:90%;position:relative}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text2);font-size:1.4rem;cursor:pointer}
+.modal-title{font-weight:800;margin-bottom:6px}
+.modal-smiles{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--text2);margin-bottom:12px;word-break:break-all}
+.modal canvas{max-width:100%;border-radius:8px;margin:0 auto;display:block}
+
+/* BADGE */
+.badge{display:inline-block;border-radius:4px;padding:2px 8px;font-size:0.72rem;font-weight:700;margin:2px}
+.badge-purple{background:rgba(124,106,255,0.2);color:var(--accent)}
+.badge-green{background:rgba(74,222,128,0.15);color:var(--green)}
+.badge-red{background:rgba(248,113,113,0.15);color:var(--red)}
+.badge-yellow{background:rgba(251,191,36,0.15);color:var(--yellow)}
+.badge-blue{background:rgba(96,165,250,0.15);color:var(--blue)}
+.badge-pink{background:rgba(244,114,182,0.15);color:var(--pink)}
+
+/* FORMULA BOX */
+.formula{font-family:'Space Mono',monospace;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:0.82rem;margin:8px 0;color:var(--accent3)}
+
+/* SCROLL TOP */
+.scroll-top{position:fixed;bottom:24px;right:24px;background:var(--accent);border:none;border-radius:50%;width:40px;height:40px;color:#fff;font-size:1.1rem;cursor:pointer;z-index:500;display:none;align-items:center;justify-content:center;transition:opacity 0.3s}
+
+/* NO RESULT */
+.no-result{text-align:center;padding:40px;color:var(--text2);display:none}
+
+/* TAGS in card */
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+
+/* LIST */
+.styled-list{list-style:none;padding:0}
+.styled-list li{padding:4px 0 4px 16px;position:relative;font-size:0.87rem;color:var(--text);line-height:1.6}
+.styled-list li::before{content:'→';position:absolute;left:0;color:var(--accent3)}
+
+@media(max-width:600px){
+  .header-inner{gap:8px}
+  .card-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.3rem}
+  .struct-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-smiles" id="modal-smiles"></div>
+    <canvas id="modal-canvas" width="400" height="300"></canvas>
+    <div style="font-size:0.8rem;color:var(--text2);margin-top:10px" id="modal-note"></div>
+  </div>
+</div>
+
+
+<script>
+    
+function scrollTo(elementId) {
+  let element = document.getElementById(elementId);
+  element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+
+</script>
+
+<main id="main">
+  <!-- HERO -->
+  <div class="hero">
+    <h1><span class="g1">Biomolecules</span><br><span class="g2">no cap, explained.</span></h1>
+    <p class="qf-hide">Your JEE organic chapter, but make it actually make sense. Every fact has an analogy. No bare notes.</p>
+    <div class="tag-row qf-hide">
+      <span class="tag">JEE Mains + Advanced</span>
+    </div>
+  </div>
+
+  <!-- SECTION NAV -->
+  <div class="sec-nav">
+    <button class="sec-btn active" onclick="window.scrollTo('amino')">🧬 Amino Acids</button>
+    <button class="sec-btn" onclick="window.scrollTo('proteins')">🔗 Proteins</button>
+    <button class="sec-btn" onclick="window.scrollTo('carbs')">🍬 Carbohydrates</button>
+    <button class="sec-btn" onclick="window.scrollTo('nucleic')">🧬 Nucleic Acids</button>
+    <button class="sec-btn" onclick="window.scrollTo('vitamins')">💊 Vitamins</button>
+    <button class="sec-btn" onclick="window.scrollTo('enzymes')">⚗️ Enzymes</button>
+  </div>
+
+  <div id="no-result" class="no-result">😶 nothing found bro. try different keywords.</div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 — AMINO ACIDS
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="amino" data-search="amino acids glycine alanine essential non-essential zwitterion isoelectric point pI classification acidic basic neutral">
+    <div class="section-title"><span class="num">1</span> Amino Acids</div>
+
+    <div class="card-grid">
+      <!-- CARD: What is an amino acid -->
+      <div class="card open" data-search="amino acid structure alpha carbon NH2 COOH">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🏠 The Basic Structure</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">💡</span><strong>Vibe check:</strong><p>Every amino acid is like an Instagram profile — same layout (α-carbon backbone), but different bio (R group = side chain). That side chain is literally what makes each one unique.</p></div>
+          <div class="formula">H₂N — CH(R) — COOH</div>
+          <ul class="styled-list">
+            <li>α-carbon = central carbon bonded to NH₂, COOH, H, and R</li>
+            <li>20 standard α-amino acids in living systems</li>
+            <li>All are L-amino acids <strong>except Glycine</strong> (no optical activity — R = H, so no chiral center)</li>
+            <li>Glycine: NH₂–CH₂–COOH → R group is just H</li>
+          </ul>
+          <div class="struct-grid" id="basic-structs"></div>
+        </div>
+      </div>
+
+      <!-- CARD: Classification by nature -->
+      <div class="card" data-search="acidic basic neutral amino acid aspartic glutamic lysine arginine histidine">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">⚡ Acidic / Basic / Neutral</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🧠</span><strong>Think of it like group chats:</strong><p>Acidic AA = more complainers (COOH) than supporters (NH₂).<br>Basic AA = more supportive (NH₂) than complaining.<br>Neutral AA = equal energy, no drama.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Type</th><th>Rule</th><th>pI</th><th>Examples</th></tr>
+              <tr><td><span class="badge badge-red">Acidic</span></td><td>COOH > NH₂</td><td class="no">&lt; 7</td><td>Asp, Glu</td></tr>
+              <tr><td><span class="badge badge-green">Basic</span></td><td>NH₂ > COOH</td><td class="yes">&gt; 7</td><td>Lys, Arg, His</td></tr>
+              <tr><td><span class="badge badge-blue">Neutral</span></td><td>NH₂ = COOH</td><td>5.1–6.5</td><td>Gly, Ala, Val...</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD: Essential amino acids -->
+      <div class="card" data-search="essential amino acids PVT TIM HaLL phenylalanine valine threonine tryptophan isoleucine methionine histidine arginine leucine lysine">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🍽️ Essential vs Non-Essential</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout mnemonic"><span class="callout-icon">🔥</span><strong>Mnemonic that hits different:</strong><p><strong style="color:var(--accent4);font-size:1.1rem">"PVT TIM HaLL"</strong><br><span style="color:var(--text2);font-size:0.82rem">P=Phenylalanine · V=Valine · T=Threonine · T=Tryptophan · I=Isoleucine · M=Methionine · H=Histidine · a=Arginine · L=Leucine · L=Lysine</span></p></div>
+          <div class="callout logic qf-hide"><span class="callout-icon">🔗</span><strong>Logic:</strong><p>Essential = body can't synthesize = must eat them = gym bro supplement list basically. Non-essential = body manufactures internally.</p></div>
+          <div class="card-tags">
+            <span class="badge badge-red">Phe</span><span class="badge badge-red">Val</span><span class="badge badge-red">Thr</span><span class="badge badge-red">Trp</span><span class="badge badge-red">Ile</span>
+            <span class="badge badge-red">Met</span><span class="badge badge-red">His</span><span class="badge badge-red">Arg</span><span class="badge badge-red">Leu</span><span class="badge badge-red">Lys</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD: Zwitterion -->
+      <div class="card" data-search="zwitterion dipolar ion amphoteric amino acid proton transfer">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">⚖️ Zwitterion (Dipolar Ion)</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">😂</span><strong>No cap analogy:</strong><p>Imagine you're at peace (neutral charge) but internally chaotic — you're ⊕ on one side and ⊖ on the other. That's a zwitterion. Like someone who looks calm in public but is screaming inside.</p></div>
+          <div class="flow">
+            <span class="flow-item">H₂N–CH(R)–COOH</span>
+            <span class="flow-arrow">→ –H⁺ →</span>
+            <span class="flow-item">⁺H₃N–CH(R)–COO⁻</span>
+            <span class="flow-arrow">= Zwitterion</span>
+          </div>
+          <ul class="styled-list">
+            <li>COOH loses H⁺ → becomes –COO⁻</li>
+            <li>–NH₂ gains that H⁺ → becomes –⁺NH₃</li>
+            <li>Net charge = 0, but has both + and – groups</li>
+            <li>That's why amino acids are <strong>amphoteric</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CARD: Isoelectric point -->
+      <div class="card" data-search="isoelectric point pI electrophoresis cathode anode pH migration">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">📍 Isoelectric Point (pI)</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🎯</span><strong>pI = the comfort zone pH:</strong><p>At pI, the amino acid is in its zwitterion form — chill, not moving anywhere. Make it more acidic (pH &lt; pI) and it gets + charged, runs to –ve plate. Make it basic (pH &gt; pI) and it goes –ve, runs to +ve plate. <em>Classic overreacting to environment energy.</em></p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Condition</th><th>Charge</th><th>Moves toward</th></tr>
+              <tr><td>pH &lt; pI</td><td class="yes">Positive (+ve)</td><td>Cathode (–ve electrode)</td></tr>
+              <tr><td>pH = pI</td><td>Zero (neutral)</td><td>Doesn't move</td></tr>
+              <tr><td>pH &gt; pI</td><td class="no">Negative (–ve)</td><td>Anode (+ve electrode)</td></tr>
+            </table>
+          </div>
+          <div class="formula">
+            Neutral AA: pI = (pKa₁ + pKa₂) / 2<br>
+            Acidic AA: pI = (pKa₁ + pKa₂_sidechain) / 2 → pI &lt; 7<br>
+            Basic AA: pI = (pKa₂ + pKa₃_sidechain) / 2 → pI &gt; 7
+          </div>
+          <div class="callout warning qf-hide"><span class="callout-icon">⚠️</span><strong>JEE trap:</strong><p>Minimum solubility occurs AT the isoelectric point, not at neutral pH. Don't confuse pI with pH = 7.</p></div>
+        </div>
+      </div>
+
+      <!-- CARD: Tests for AAs -->
+      <div class="card" data-search="ninhydrin biuret xanthoproteic sakaguchi millon sanger DNFB test amino acid protein color">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🧪 Tests — The Detective Toolkit</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🔍</span><strong>Each test is a specialist cop:</strong><p>Ninhydrin = free NH₂ cop. Biuret = peptide bond cop. Xanthoproteic = aromatic ring cop. Sakaguchi = Arginine-only cop. Millon = Tyrosine only. Sanger = front-door cop (N-terminal).</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Test</th><th>Reagent</th><th>Detects</th><th>Color</th><th>Key trick</th></tr>
+              <tr class="highlight"><td><strong>Ninhydrin</strong></td><td>2,2-dihydroxyindane-1,3-dione</td><td>Free –NH₂ (α-AA)</td><td><span class="badge badge-purple">Blue/Purple</span></td><td>Proline (2° amine) → YELLOW not purple</td></tr>
+              <tr><td><strong>Biuret</strong></td><td>CuSO₄ + KOH</td><td>Peptide bond (2+ CO-NH)</td><td><span class="badge badge-purple">Violet</span></td><td>"Bi" = needs minimum 2 peptide bonds</td></tr>
+              <tr class="highlight"><td><strong>Xanthoproteic</strong></td><td>conc. HNO₃</td><td>Aromatic AA (Tyr, Trp)</td><td><span class="badge badge-yellow">Yellow → Orange w/ alkali</span></td><td>Phe = weakly +ve (hard ring to nitrate)</td></tr>
+              <tr><td><strong>Sakaguchi</strong></td><td>α-Naphthol + NaBrO</td><td>Arginine ONLY (guanidine)</td><td><span class="badge badge-red">Red</span></td><td>Only test specific to ONE amino acid</td></tr>
+              <tr class="highlight"><td><strong>Millon's</strong></td><td>Hg + HNO₂ (Hg²⁺)</td><td>Tyrosine (phenolic –OH)</td><td><span class="badge badge-red">Reddish-brown</span></td><td>Tyr has phenol → reacts with Hg²⁺</td></tr>
+              <tr><td><strong>Sanger's (DNFB)</strong></td><td>1-fluoro-2,4-dinitrobenzene</td><td>N-terminal AA</td><td><span class="badge badge-yellow">Yellow DNP-AA</span></td><td>Labels FRONT door of peptide chain</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD: Amino acid structures -->
+      <div class="card" data-search="glycine alanine valine phenylalanine tyrosine cysteine structure SMILES">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🔬 Structures (Click to expand)</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <p style="font-size:0.82rem;color:var(--text2);margin-bottom:10px" class="qf-hide">Click any structure card to see full-size. These are rendered from SMILES notation.</p>
+          <div class="struct-grid" id="aa-structs"></div>
+        </div>
+      </div>
+    </div><!-- end card-grid -->
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 — PROTEINS
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="proteins" data-search="protein peptide bond primary secondary tertiary quaternary structure alpha helix beta pleated sheet fibrous globular denaturation">
+    <div class="section-title"><span class="num" style="background:var(--accent3);color:#000">2</span> Proteins & Peptides</div>
+    <div class="card-grid">
+
+      <div class="card" data-search="peptide bond dipeptide polypeptide N-terminal C-terminal naming">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🔗 Peptide Bond Formation</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🤝</span><strong>Like a handshake deal:</strong><p>–COOH of one AA shakes hands with –NH₂ of another, kicking out H₂O as a byproduct. The resulting bond (–CO–NH–) is the peptide bond. Every protein is just millions of these handshakes in a row.</p></div>
+          <div class="flow">
+            <span class="flow-item">AA₁–COOH + H₂N–AA₂</span>
+            <span class="flow-arrow">→ –H₂O →</span>
+            <span class="flow-item">AA₁–CO–NH–AA₂</span>
+            <span class="flow-arrow">= Dipeptide</span>
+          </div>
+          <ul class="styled-list">
+            <li>Free –NH₂ end = <strong>N-terminal</strong> (written on LEFT)</li>
+            <li>Free –COOH end = <strong>C-terminal</strong> (written on RIGHT)</li>
+            <li>Naming: replace –ine with –yl for all except C-terminal AA</li>
+            <li>Gly-Ala-Phe = Glycylalanylphenylalanine</li>
+          </ul>
+          <div class="callout mnemonic"><span class="callout-icon">📐</span><strong>Polypeptide count formula:</strong><p>If X types of amino acids, n molecules → total polypeptides = <strong style="color:var(--accent4)">X<sup>n</sup></strong></p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="primary secondary tertiary quaternary protein structure levels">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🏗️ 4 Levels of Protein Structure</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🏢</span><strong>Protein = a building project:</strong><p>1° = blueprint (AA sequence)<br>2° = how walls are arranged (helix or sheet)<br>3° = complete 3D floor plan<br>4° = multiple buildings forming a complex (like Haemoglobin with 4 subunits)</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Level</th><th>What it is</th><th>Bond type</th><th>Example</th></tr>
+              <tr><td><span class="badge badge-purple">1° Primary</span></td><td>AA sequence (the "string of beads")</td><td>Peptide bonds</td><td>Sickle cell: Glu→Val change</td></tr>
+              <tr><td><span class="badge badge-green">2° Secondary</span></td><td>Local folding: α-helix or β-sheet</td><td>H-bonds</td><td>α-helix in keratin</td></tr>
+              <tr><td><span class="badge badge-yellow">3° Tertiary</span></td><td>Overall 3D shape (fibrous or globular)</td><td>H-bond, S–S, ionic</td><td>Myoglobin</td></tr>
+              <tr><td><span class="badge badge-red">4° Quaternary</span></td><td>Multiple polypeptide chains assembled</td><td>Non-covalent</td><td>Haemoglobin (4 chains)</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="alpha helix beta pleated sheet hydrogen bond secondary structure">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🌀 α-Helix vs β-Sheet</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th></th><th>α-Helix</th><th>β-Pleated Sheet</th></tr>
+              <tr><td><strong>Shape</strong></td><td>Right-handed coil (spiral staircase)</td><td>Stretched, side-by-side chains</td></tr>
+              <tr><td><strong>H-bonds</strong></td><td>Within SAME chain (NH of AA<sub>n</sub> → C=O of AA<sub>n+4</sub>)</td><td>BETWEEN chains (intermolecular)</td></tr>
+              <tr><td><strong>Analogy</strong></td><td class="qf-hide">Phone charger coiled around itself</td><td class="qf-hide">Multiple chargers laid flat, parallel</td></tr>
+            </table>
+          </div>
+          <div class="callout warning qf-hide"><span class="callout-icon">⚠️</span><strong>JEE point:</strong><p>In β-sheet, chains can be parallel or antiparallel. Both held by intermolecular H-bonds.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="fibrous globular protein keratin myosin albumin solubility">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🧶 Fibrous vs Globular Proteins</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th></th><th>Fibrous</th><th>Globular</th></tr>
+              <tr><td><strong>Shape</strong></td><td>Thread/fibre-like, parallel chains</td><td>Spheroidal (folded)</td></tr>
+              <tr><td><strong>Solubility</strong></td><td class="no">Insoluble in water</td><td class="yes">Soluble in water</td></tr>
+              <tr><td><strong>Bonds</strong></td><td>H-bond + disulfide</td><td>Multiple (pH/temp sensitive)</td></tr>
+              <tr><td><strong>Examples</strong></td><td>Keratin, Myosin, Collagen</td><td>Albumin, Haemoglobin, Enzymes</td></tr>
+              <tr><td><strong>Function</strong></td><td>Structural</td><td>Regulatory/Functional</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="denaturation protein boiling egg milk curdling hydrogen bond">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🍳 Denaturation — The Glow-Down</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">😭</span><strong>Main character arc reversed:</strong><p>Boiling an egg = classic denaturation. The protein was slaying (native form), then heat broke all H-bonds → it unfolds → loses function. It's giving villain origin story.</p></div>
+          <ul class="styled-list">
+            <li>Caused by: heat, extreme pH, chemicals</li>
+            <li>2° and 3° structure destroyed ✗</li>
+            <li>1° structure (AA sequence) remains intact ✓</li>
+            <li>Protein loses biological activity</li>
+          </ul>
+          <div class="callout logic"><span class="callout-icon">🔗</span><strong>Examples:</strong><p>Egg white coagulation on boiling · Curdling of milk by bacteria (lacto bacilli)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — CARBOHYDRATES
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="carbs" data-search="carbohydrates monosaccharides glucose fructose sucrose maltose lactose starch cellulose glycogen reducing sugar anomers epimers mutarotation osazone">
+    <div class="section-title"><span class="num" style="background:var(--accent2)">3</span> Carbohydrates</div>
+    <div class="card-grid">
+
+      <div class="card open" data-search="carbohydrate classification monosaccharide oligosaccharide polysaccharide aldose ketose">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🌳 The Family Tree</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">👨‍👩‍👧‍👦</span><strong>Carbs are a joint family:</strong><p>Monosaccharides = individuals (can't split further). Disaccharides = couples (2 joined by glycosidic bond). Polysaccharides = joint family of hundreds — all living together, sharing resources (glucose units).</p></div>
+          <div class="callout mnemonic"><span class="callout-icon">📝</span><strong>Modern definition (JEE-exact):</strong><p>Carbohydrates = <strong>polyhydroxy aldehydes or ketones</strong>, OR substances that yield these on hydrolysis.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Type</th><th>Hydrolysis gives</th><th>Examples</th><th>Taste</th></tr>
+              <tr><td><span class="badge badge-green">Monosaccharides</span></td><td>Cannot hydrolyze further</td><td>Glucose, Fructose, Ribose</td><td>Sweet</td></tr>
+              <tr><td><span class="badge badge-blue">Oligosaccharides</span></td><td>2–10 monosaccharides</td><td>Sucrose, Maltose, Lactose</td><td>Sweet</td></tr>
+              <tr><td><span class="badge badge-red">Polysaccharides</span></td><td>Many monosaccharides</td><td>Starch, Cellulose, Glycogen</td><td>Tasteless</td></tr>
+            </table>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Classification</th><th>Rule</th><th>Examples</th></tr>
+              <tr><td><span class="badge badge-yellow">Aldose</span></td><td>Has –CHO group</td><td>Glucose, Ribose, Galactose</td></tr>
+              <tr><td><span class="badge badge-pink">Ketose</span></td><td>Has C=O group (not at end)</td><td>Fructose, Ribulose</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="reducing sugar non-reducing Tollens Fehling Benedict hemiacetal hemiketal acetal sucrose">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🔴 Reducing vs Non-Reducing Sugar</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout logic"><span class="callout-icon">🔗</span><strong>The logic chain (learn this, not the definition):</strong>
+            <div class="flow" style="flex-direction:column;align-items:flex-start;gap:4px;margin-top:6px">
+              <div>Reducing sugar → has FREE hemiacetal group</div>
+              <div>→ ring can OPEN in solution</div>
+              <div>→ exposes free –CHO / α-hydroxy C=O</div>
+              <div>→ can donate electrons to Cu²⁺ / Ag⁺</div>
+              <div>→ reduces Fehling's / Tollen's / Benedict's ✅</div>
+            </div>
+          </div>
+          <div class="callout warning"><span class="callout-icon">🚨</span><strong>Sucrose — the plot twist:</strong><p>Sucrose is a disaccharide but NON-REDUCING. Why? Because BOTH anomeric carbons (C1 of glucose AND C2 of fructose) are locked in the glycosidic bond. Both hands tied. Can't open ring. Can't reduce. It's the prisoner of disaccharides.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Reducing Sugars</th><th>Non-Reducing Sugars</th></tr>
+              <tr><td class="yes">All monosaccharides</td><td class="no">Sucrose</td></tr>
+              <tr><td class="yes">Maltose, Lactose, Cellubiose</td><td class="no">All polysaccharides</td></tr>
+              <tr><td>Have hemiacetal/hemiketal</td><td>Only acetal linkage</td></tr>
+              <tr><td>Show mutarotation</td><td>No mutarotation</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="glucose structure open chain cyclic pyranose furanose haworth alpha beta anomeric carbon D-glucose">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🍇 Glucose — The GOAT Monosaccharide</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🏆</span><strong>Glucose is that main character:</strong><p>Known as dextrose (rotates polarized light to right = dextrorotatory). Found everywhere: grapes, honey, blood. Both α and β forms exist — they interconvert in water through mutarotation. Can't pick a lane.</p></div>
+          <ul class="styled-list">
+            <li>Molecular formula: C₆H₁₂O₆ (aldohexose)</li>
+            <li>D-Glucose: OH on C5 is on the RIGHT in Fischer projection</li>
+            <li>α-D-Glucose: OH on C1 is DOWN (axial in Haworth) — specific rotation +112°</li>
+            <li>β-D-Glucose: OH on C1 is UP (equatorial in Haworth) — specific rotation +19°</li>
+            <li>β form is more stable (equatorial OH = less steric clash)</li>
+          </ul>
+          <div class="formula">6-membered ring = Pyranose (like Pyran)<br>5-membered ring = Furanose (like Furan)</div>
+          <div class="struct-grid" id="glucose-structs"></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="mutarotation specific rotation alpha beta glucose equilibrium hemiacetal">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🔄 Mutarotation — The Flip</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🔄</span><strong>Can't make up its mind:</strong><p>Dissolve pure α-glucose (rotation +112°) in water. It slowly shifts to +52.7° — an equilibrium mixture. Pure β-glucose (rotation +19°) also shifts to +52.7° from below. Both vibe at +52.7° = mutarotation. The open-chain form is the middle-man in this process.</p></div>
+          <div class="flow">
+            <span class="flow-item">α (+112°)</span>
+            <span class="flow-arrow">⇌ open chain ⇌</span>
+            <span class="flow-item">β (+19°)</span>
+            <span class="flow-arrow">→ equilibrium at</span>
+            <span class="flow-item">+52.7°</span>
+          </div>
+          <div class="callout mnemonic"><span class="callout-icon">📌</span><strong>Rule:</strong><p>Only REDUCING sugars mutarotate (need free hemiacetal group to open). Sucrose? No mutarotation. Glycosides? No mutarotation.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="glucose reactions Tollens Fehling Benedict bromine water HNO3 osazone NaHSO3 Schiff DNP aldehyde">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">⚗️ Glucose Reactions — The Cheat Sheet</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout logic qf-hide"><span class="callout-icon">🔗</span><strong>Why does glucose fail Schiff's test if it has –CHO?</strong><p>Because only 0.02% of glucose exists in open-chain form. The cyclic forms (α/β) dominate. The –CHO is "hiding" inside the ring. Weak tests like Schiff's can't detect that tiny 0.02%. But strong oxidising agents like Tollen's/Fehling's can.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Reagent</th><th>Result</th><th>What it proves</th></tr>
+              <tr><td>Br₂/H₂O</td><td class="yes">✓ (→ Gluconic acid)</td><td>Aldose identifier — KETOSES FAIL ❌</td></tr>
+              <tr><td>Tollen's / Fehling's</td><td class="yes">✓ (Silver mirror / Cu₂O red ppt)</td><td>Reducing sugar (fructose also passes!)</td></tr>
+              <tr><td>HNO₃ (conc.)</td><td class="yes">✓ → Glucaric (Saccharic) acid</td><td>Both ends oxidized → dicarboxylic acid</td></tr>
+              <tr><td>NaHSO₃</td><td class="no">✗ No reaction</td><td>Aldehyde is NOT free (cyclic form)</td></tr>
+              <tr><td>Schiff's reagent</td><td class="no">✗ No reaction</td><td>Same — cyclic form dominant</td></tr>
+              <tr><td>DNP</td><td class="no">✗ No reaction</td><td>Same reason</td></tr>
+              <tr><td>HIO₄</td><td class="yes">✓ → 5HCOOH + HCHO</td><td>Cleaves C–C with adjacent OH groups</td></tr>
+              <tr><td>H₂/Ni</td><td class="yes">✓ → Glucitol (Sorbitol)</td><td>Reduction of aldehyde</td></tr>
+              <tr><td>Red P + HI</td><td class="yes">✓ → n-Hexane</td><td>All 6 carbons are LINEAR</td></tr>
+              <tr><td>CH₃OH/H⁺</td><td class="yes">✓ → Methyl glucoside (acetal)</td><td>Glycoside formation — now NON-reducing</td></tr>
+            </table>
+          </div>
+          <div class="callout warning"><span class="callout-icon">⚠️</span><strong>The fructose trap:</strong><p>Fructose is a KETOSE but PASSES Tollen's/Fehling's. In basic medium, fructose ⇌ enediol ⇌ glucose/mannose (tautomerism). So it can reduce Cu²⁺. But Br₂/H₂O (neutral, mild) = fructose FAILS. Use Br₂/H₂O to tell aldose from ketose.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="anomers epimers diastereomers anomeric carbon C2 C3 C4 epimer glucose mannose galactose">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🔬 Anomers & Epimers</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Term</th><th>Differ at</th><th>Example</th><th>Memory hook</th></tr>
+              <tr><td><strong>Anomers</strong></td><td>Anomeric carbon (C1) only</td><td>α-D-Glucose vs β-D-Glucose</td><td>"A for Alpha — At C1"</td></tr>
+              <tr><td><strong>Epimers</strong></td><td>ONE non-anomeric stereocentre</td><td>Glucose vs Mannose (C2)</td><td>"Epi = specific position flip"</td></tr>
+            </table>
+          </div>
+          <div class="callout mnemonic"><span class="callout-icon">🧠</span><strong>Glucose epimerization:</strong><p>C2 flip → Mannose · C3 flip → Allose · C4 flip → Galactose<br>Think: <strong>"MAN flips at 2, ALL at 3, GAL at 4"</strong></p></div>
+          <div class="callout warning"><span class="callout-icon">⚠️</span><strong>Osazone rule:</strong><p>Glucose, Fructose, Mannose give the SAME osazone (needle-shaped). Because osazone formation only involves C1 and C2 — and these three differ only at those carbons.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="disaccharides sucrose maltose lactose cellubiose glycosidic bond linkage C1 C2 C4 reducing non-reducing">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">👫 Disaccharides — The Couples</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Sugar</th><th>Units</th><th>Linkage</th><th>Reducing?</th><th>Special</th></tr>
+              <tr class="highlight"><td><strong>Sucrose</strong></td><td>α-Glc + β-Fru</td><td>α-1,β-2 (C1–C2)</td><td class="no">NO</td><td>Inversion on hydrolysis (dextro→laevo). Enzyme = Invertase.</td></tr>
+              <tr><td><strong>Maltose</strong></td><td>α-Glc + α-Glc</td><td>α-1,4 (C1–C4)</td><td class="yes">YES</td><td>From starch by diastase. Enzyme for hydrolysis = Maltase.</td></tr>
+              <tr class="highlight"><td><strong>Lactose</strong></td><td>β-Gal + β-Glc</td><td>β-1,4 (C1–C4)</td><td class="yes">YES</td><td>Milk sugar. Enzyme = Lactase. Dextrorotatory.</td></tr>
+              <tr><td><strong>Cellubiose</strong></td><td>β-Glc + β-Glc</td><td>β-1,4 (C1–C4)</td><td class="yes">YES</td><td>From cellulose hydrolysis.</td></tr>
+            </table>
+          </div>
+          <div class="callout mnemonic"><span class="callout-icon">🧠</span><strong>Linkage hack:</strong><p>SuCrose = Special C1-C2 linkage (only one where BOTH anomeric carbons locked = non-reducing). All others = C1-C4.</p></div>
+          <div class="callout analogy qf-hide"><span class="callout-icon">🔀</span><strong>Inversion of sucrose explained:</strong><p>Sucrose is dextrorotatory (+66.5°). After hydrolysis: glucose (+52.7°) + fructose (–92.2°). Fructose has a bigger rotation magnitude. The mixture goes LAEVOROTATORY. Rotation literally inverts sign. That's why it's called "inversion sugar." Main character moment for fructose.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="polysaccharides starch amylose amylopectin glycogen cellulose alpha beta glucose linkage branching iodine test">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🏗️ Polysaccharides — The Joint Family</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">👴</span><strong>One joint family, different rules:</strong><p>Starch = plant's savings account. Glycogen = animal's savings (more liquid, more branches, faster to access). Cellulose = plant's skeleton — strong, can't be broken by us (no β-glucosidase enzyme = wrong key for the lock).</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th></th><th>Amylose</th><th>Amylopectin</th><th>Glycogen</th><th>Cellulose</th></tr>
+              <tr><td><strong>Storage</strong></td><td>Plant</td><td>Plant</td><td>Animal</td><td>Plant skeleton</td></tr>
+              <tr><td><strong>Monomer</strong></td><td>α-D-Glc</td><td>α-D-Glc</td><td>α-D-Glc</td><td><strong>β-D-Glc</strong></td></tr>
+              <tr><td><strong>Main linkage</strong></td><td>α-1,4</td><td>α-1,4</td><td>α-1,4</td><td>β-1,4</td></tr>
+              <tr><td><strong>Branch linkage</strong></td><td>None</td><td>α-1,6 (every 25-30 units)</td><td>α-1,6 (every 5-6 units)</td><td>None</td></tr>
+              <tr><td><strong>Iodine test</strong></td><td class="yes">Blue</td><td><span style="color:var(--pink)">Violet</span></td><td>—</td><td class="no">No color</td></tr>
+              <tr><td><strong>Human digestion</strong></td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td></tr>
+            </table>
+          </div>
+          <div class="callout mnemonic"><span class="callout-icon">🔥</span><strong>The 3-line summary:</strong><p><strong>Starch</strong> = plant storage, polymer of α-D-glucose<br><strong>Glycogen</strong> = animal storage, polymer of α-D-glucose (more branched)<br><strong>Cellulose</strong> = plant skeleton, polymer of <em>β</em>-D-glucose (humans can't digest)</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="carbohydrate tests Molisch Barfoed Seliwanoff Bial osazone Benedict Fehling Tollens iodine">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🧪 Carbohydrate Tests — Ranked</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Test</th><th>Reagent</th><th>Detects</th><th>Result</th><th>Memory</th></tr>
+              <tr class="highlight"><td><strong>Molisch</strong></td><td>α-Naphthol + H₂SO₄</td><td>ALL carbohydrates</td><td><span class="badge badge-purple">Purple ring</span></td><td>"Molisch = Master test, general"</td></tr>
+              <tr><td><strong>Barfoed</strong></td><td>Cu-acetate + AcOH (mild acid)</td><td>Mono vs Disaccharide</td><td><span class="badge badge-red">Red Cu₂O &lt;3 min = mono</span></td><td>"Bar fight faster = monosaccharide wins"</td></tr>
+              <tr class="highlight"><td><strong>Seliwanoff</strong></td><td>Resorcinol + conc. HCl, heat</td><td>Ketose (Fructose)</td><td><span class="badge badge-red">Cherry red (fast)</span></td><td>"She-loves fructose"</td></tr>
+              <tr><td><strong>Bial's</strong></td><td>Orcinol + FeCl₃ + HCl</td><td>Pentose sugars</td><td><span class="badge badge-blue">Blue</span></td><td>"Bial = Blue for pentose"</td></tr>
+              <tr class="highlight"><td><strong>Osazone</strong></td><td>Phenyl hydrazine (excess)</td><td>Reducing sugars (shape ID)</td><td>Yellow crystals</td><td>Glc/Fru/Man = needle; Maltose = sunflower; Lactose = powder puff</td></tr>
+              <tr><td><strong>Iodine</strong></td><td>I₂ solution</td><td>Starch specifically</td><td><span class="badge badge-blue">Deep blue</span></td><td>"I for Iodine, I for Ink blue"</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="fructose structure ketose sweetest monosaccharide furanose">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🍓 Fructose — The Sweet Rival</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🍭</span><strong>Fructose is the sweeter sibling:</strong><p>Fructose = sweetest monosaccharide. It's a ketohexose (C=O at C2 not C1). Forms 5-membered FURANOSE ring (C2 to C5 closure). While glucose likes 6-membered rings, fructose is the rebel doing 5-membered.</p></div>
+          <ul class="styled-list">
+            <li>Specific rotation: –92° (laevorotatory = D-fructose but laevo)</li>
+            <li>α-D-fructose: rotation –21°; β-D-fructose: –133°</li>
+            <li>Forms fructofuranose (5-membered ring)</li>
+            <li>Reduction → Sorbitol + Mannitol (two products because C2 is new asymmetric center)</li>
+          </ul>
+          <div class="struct-grid" id="fructose-structs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 — NUCLEIC ACIDS
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="nucleic" data-search="nucleic acids DNA RNA nucleotide nucleoside purine pyrimidine adenine guanine cytosine thymine uracil Chargaff Watson Crick double helix">
+    <div class="section-title"><span class="num" style="background:var(--accent4);color:#000">4</span> Nucleic Acids</div>
+    <div class="card-grid">
+
+      <div class="card open" data-search="nucleotide nucleoside phosphate sugar base hierarchy">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🧱 Building Blocks Hierarchy</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🏗️</span><strong>Like LEGO sets:</strong><p>Nucleic acid = assembled model. Nucleotide = one LEGO brick WITH the stud (phosphate). Nucleoside = brick WITHOUT the stud. Sugar + nitrogenous base = the plastic part. Phosphate = the stud that connects them.</p></div>
+          <div class="flow">
+            <span class="flow-item">Nitrogenous Base</span>
+            <span class="flow-arrow">+</span>
+            <span class="flow-item">Pentose Sugar</span>
+            <span class="flow-arrow">=</span>
+            <span class="flow-item">Nucleoside</span>
+            <span class="flow-arrow">+</span>
+            <span class="flow-item">Phosphate</span>
+            <span class="flow-arrow">=</span>
+            <span class="flow-item">Nucleotide</span>
+            <span class="flow-arrow">→ many →</span>
+            <span class="flow-item">Nucleic Acid</span>
+          </div>
+          <ul class="styled-list">
+            <li>DNA sugar = Deoxyribose (no OH at C2)</li>
+            <li>RNA sugar = Ribose (OH at C2)</li>
+            <li>Phosphodiester bond: between 5' carbon of one nucleotide and 3' carbon of next</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-search="purine pyrimidine adenine guanine cytosine thymine uracil single double ring">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">💍 Bases — Singles vs Couples</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout mnemonic"><span class="callout-icon">🧠</span><strong>Never forget this:</strong><p><span style="color:var(--accent4)">"PURE As Gold"</span> → Purines = Adenine + Guanine (double ring)<br><span style="color:var(--accent3)">"CUT the Py"</span> → Pyrimidines = Cytosine + Uracil + Thymine (single ring)</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Base</th><th>Type</th><th>In DNA?</th><th>In RNA?</th><th>Pairs with</th></tr>
+              <tr><td>Adenine (A)</td><td><span class="badge badge-yellow">Purine</span></td><td class="yes">Yes</td><td class="yes">Yes</td><td>T (in DNA) / U (in RNA) — 2 H-bonds</td></tr>
+              <tr><td>Guanine (G)</td><td><span class="badge badge-yellow">Purine</span></td><td class="yes">Yes</td><td class="yes">Yes</td><td>Cytosine (C) — 3 H-bonds</td></tr>
+              <tr><td>Cytosine (C)</td><td><span class="badge badge-blue">Pyrimidine</span></td><td class="yes">Yes</td><td class="yes">Yes</td><td>Guanine (G) — 3 H-bonds</td></tr>
+              <tr><td>Thymine (T)</td><td><span class="badge badge-blue">Pyrimidine</span></td><td class="yes">Yes</td><td class="no">NO</td><td>Adenine (A) — 2 H-bonds</td></tr>
+              <tr><td>Uracil (U)</td><td><span class="badge badge-blue">Pyrimidine</span></td><td class="no">NO</td><td class="yes">Yes</td><td>Adenine (A) — 2 H-bonds</td></tr>
+            </table>
+          </div>
+          <div class="callout analogy qf-hide"><span class="callout-icon">🔗</span><strong>GC = 3 H-bonds = stronger:</strong><p>Like a triple knot vs a double knot. More GC pairs in DNA → higher melting temperature. This is a classic MCQ trap.</p></div>
+          <div class="struct-grid" id="base-structs"></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="Chargaff rule base pairing A T G C ratio complementary strand">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">📏 Chargaff's Rules</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <ul class="styled-list">
+            <li>[A] = [T] always; [G] = [C] always in double-stranded DNA</li>
+            <li>Purines = Pyrimidines in total quantity</li>
+            <li>A/T ratio ≈ 1; G/C ratio ≈ 1</li>
+            <li>A+T/G+C ratio = constant for a species</li>
+            <li>One strand: 5'-CAT TAG GAC-3' → other strand: 3'-GTA ATC CTG-5'</li>
+          </ul>
+          <div class="callout logic"><span class="callout-icon">🔗</span><strong>Implication:</strong><p>If you know one strand's sequence, you automatically know the other. The two strands are COMPLEMENTARY and ANTIPARALLEL. They run in opposite 5'→3' directions.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="DNA structure double helix Watson Crick diameter turns nucleotides per turn B-DNA antiparallel">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">🧬 DNA Double Helix — Key Numbers</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🪜</span><strong>DNA is a twisted ladder:</strong><p>Sugar-phosphate = the two side rails. Nitrogenous base pairs = the rungs. The whole ladder is twisted into a right-handed helix. Like taking a normal ladder and spinning it.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Property</th><th>Value</th></tr>
+              <tr><td>Diameter of helix</td><td>20 Å</td></tr>
+              <tr><td>Distance between base pairs</td><td>3.4 Å</td></tr>
+              <tr><td>One complete turn</td><td>34 Å</td></tr>
+              <tr><td>Nucleotides per turn</td><td>10</td></tr>
+              <tr><td>Helix type</td><td>Right-handed (B-DNA)</td></tr>
+              <tr><td>Strand orientation</td><td>Antiparallel</td></tr>
+              <tr><td>Proposed by</td><td>Watson & Crick, 1953 (Nobel 1962)</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="RNA types mRNA tRNA rRNA messenger transfer ribosomal function protein synthesis">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">📡 RNA — The 3 Workers</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🏭</span><strong>Factory analogy:</strong><p>DNA is the locked blueprint in the office. mRNA = photocopy guy who takes blueprint to factory. rRNA = the factory itself (ribosome). tRNA = taxi driver bringing raw materials (amino acids) to the factory.</p></div>
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Type</th><th>Full name</th><th>% of RNA</th><th>Function</th><th>Memory</th></tr>
+              <tr><td><strong>rRNA</strong></td><td>Ribosomal RNA</td><td>~80%</td><td>Forms the ribosome (factory)</td><td>"r = Ribosome, the big one"</td></tr>
+              <tr><td><strong>mRNA</strong></td><td>Messenger RNA</td><td>~15%</td><td>Carries genetic code DNA → ribosome</td><td>"m = Message/Mail carrier"</td></tr>
+              <tr><td><strong>tRNA</strong></td><td>Transfer RNA</td><td>~5%</td><td>Carries specific AA to ribosome</td><td>"t = Taxi for amino acids"</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-search="DNA RNA difference comparison table sugar strand stability thymine uracil">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">⚔️ DNA vs RNA — Head to Head</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Feature</th><th>DNA</th><th>RNA</th></tr>
+              <tr><td>Sugar</td><td>Deoxyribose</td><td>Ribose</td></tr>
+              <tr><td>Unique base</td><td>Thymine (T)</td><td>Uracil (U)</td></tr>
+              <tr><td>Strands</td><td>Double (usually)</td><td>Single (usually)</td></tr>
+              <tr><td>Location</td><td>Nucleus (primarily)</td><td>Cytoplasm (mainly)</td></tr>
+              <tr><td>Stability</td><td class="yes">More stable</td><td class="no">Less stable</td></tr>
+              <tr><td>Function</td><td>Stores genetic info</td><td>Executes genetic info</td></tr>
+              <tr><td>Replication</td><td class="yes">Can self-replicate</td><td class="no">Cannot normally</td></tr>
+              <tr><td>Purine = Pyrimidine?</td><td class="yes">Yes (Chargaff)</td><td class="no">Not necessarily</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 5 — VITAMINS
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="vitamins" data-search="vitamins fat soluble water soluble ADEK B complex C deficiency diseases beriberi scurvy rickets night blindness">
+    <div class="section-title"><span class="num" style="background:var(--green);color:#000">5</span> Vitamins</div>
+    <div class="card-grid">
+
+      <div class="card open" data-search="fat soluble water soluble vitamin ADEK B C classification">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">💧 Fat vs Water Soluble</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout mnemonic"><span class="callout-icon">🔥</span><strong>The ultimate mnemonic:</strong><p><span style="color:var(--accent4);font-size:1.1rem;font-weight:800">FAT = ADEK</span><br>Vitamins A, D, E, K are Fat-soluble. Stored in liver and adipose tissue. Don't need daily intake.<br><br><span style="color:var(--accent3);font-size:1.1rem;font-weight:800">WATER = B + C</span><br>B-complex and C are water-soluble. Excreted in urine. Need daily supply.</p></div>
+        </div>
+      </div>
+
+      <div class="card" data-search="vitamin deficiency disease table beriberi scurvy rickets night blindness haemorrhage anaemia">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">📋 Vitamin Deficiency Master Table</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Vitamin</th><th>Name</th><th>Solubility</th><th>Deficiency Disease</th><th>Memory trick</th></tr>
+              <tr><td><span class="badge badge-yellow">A</span></td><td>Retinal</td><td>Fat</td><td>Night blindness, Xerophthalmia</td><td>"A = eyeA — see in the dark"</td></tr>
+              <tr><td><span class="badge badge-blue">B₁</span></td><td>Thiamine</td><td>Water</td><td>Beriberi (leg paralysis)</td><td>"B1 = Beri-Beri (say twice)"</td></tr>
+              <tr><td><span class="badge badge-blue">B₂</span></td><td>Riboflavin</td><td>Water</td><td>Cheilosis (cracked lips), Ariboflavinosis</td><td>"B2 = cracked 2 lips"</td></tr>
+              <tr><td><span class="badge badge-blue">B₆</span></td><td>Pyridoxin</td><td>Water</td><td>Dermatitis, anaemia</td><td>"B6 = skin problems"</td></tr>
+              <tr><td><span class="badge badge-blue">B₁₂</span></td><td>Cyanocobalamin</td><td>Water</td><td>Pernicious anaemia</td><td>"B12 = Blood (12 = dozen = lots of RBCs)"</td></tr>
+              <tr><td><span class="badge badge-blue">H</span></td><td>Biotin</td><td>Neither</td><td>Dermatitis, hair loss</td><td>"H = Hair loss"</td></tr>
+              <tr><td><span class="badge badge-green">C</span></td><td>Ascorbic acid</td><td>Water</td><td>Scurvy (bleeding gums)</td><td>"C = Citrus = C for Captain (pirates had scurvy)"</td></tr>
+              <tr><td><span class="badge badge-yellow">D</span></td><td>Ergo calciferol</td><td>Fat</td><td>Rickets (children), Osteomalacia (adults)</td><td>"D = bone Density"</td></tr>
+              <tr><td><span class="badge badge-yellow">E</span></td><td>Tocopherols</td><td>Fat</td><td>Sterility, muscular weakness</td><td>"E = rEproduction (fertility vitamin)"</td></tr>
+              <tr><td><span class="badge badge-yellow">K</span></td><td>Phylloquinone</td><td>Fat</td><td>Haemorrhage (no blood clotting)</td><td>"K = Koagulation (German for clotting)"</td></tr>
+            </table>
+          </div>
+          <div class="callout warning qf-hide"><span class="callout-icon">⚠️</span><strong>JEE-specific notes:</strong><p>Vitamin D is produced in skin by UV irradiation of ergosterol. Vitamin H (Biotin) = neither fat nor water soluble = unique. Vitamin K helps in blood clotting — deficiency = excessive bleeding.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 6 — ENZYMES
+  ═══════════════════════════════════════════════════════ -->
+  <div class="section" id="enzymes" data-search="enzymes catalysis zymase diastase maltase invertase urease pepsin optimum pH temperature coenzyme activator inhibitor">
+    <div class="section-title"><span class="num" style="background:var(--pink);color:#fff">6</span> Enzymes</div>
+    <div class="card-grid">
+      <div class="card open" data-search="enzyme properties efficiency specific optimum pH temperature coenzyme">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">⚙️ What Are Enzymes?</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="callout analogy qf-hide"><span class="callout-icon">🤖</span><strong>Enzymes = biological robots:</strong><p>Each one does ONE specific job — can't do anything else. Like a vending machine that only gives one snack. Insanely efficient (1 enzyme can process ~1 million molecules/min). But very fussy about temperature and pH — wrong conditions and they ghost you (denaturation).</p></div>
+          <ul class="styled-list">
+            <li>Protein molecules of high molecular mass</li>
+            <li>Form colloidal solutions in water</li>
+            <li>First enzyme synthesized in lab = 1969</li>
+            <li>Optimum temperature: 298–310 K (body temp = 310 K)</li>
+            <li>Optimum pH: 5–7 (pepsin works at pH ~2)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" data-search="enzyme reactions zymase diastase maltase invertase urease pepsin examples">
+        <div class="card-header" onclick="toggleCard(this)">
+          <span class="card-title">📋 Key Enzyme Reactions</span>
+          <span class="card-arrow">▼</span>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap">
+            <table>
+              <tr><th>Enzyme</th><th>Source</th><th>Reaction</th></tr>
+              <tr><td><strong>Invertase</strong></td><td>Yeast</td><td>Sucrose → Glucose + Fructose</td></tr>
+              <tr><td><strong>Zymase</strong></td><td>Yeast</td><td>Glucose → Ethanol + CO₂</td></tr>
+              <tr><td><strong>Diastase</strong></td><td>Malt</td><td>Starch → Maltose</td></tr>
+              <tr><td><strong>Maltase</strong></td><td>Yeast</td><td>Maltose → Glucose</td></tr>
+              <tr><td><strong>Urease</strong></td><td>Soyabean</td><td>Urea → NH₃ + CO₂</td></tr>
+              <tr><td><strong>Pepsin</strong></td><td>Stomach</td><td>Proteins → Peptides</td></tr>
+              <tr><td><strong>Trypsin</strong></td><td>Intestine</td><td>Proteins → Amino acids</td></tr>
+              <tr><td><strong>Lacto bacilli</strong></td><td>Curd</td><td>Milk → Curd</td></tr>
+            </table>
+          </div>
+          <div class="callout mnemonic"><span class="callout-icon">🧠</span><strong>Fermentation chain to remember:</strong><p><strong>Starch</strong> →(Diastase)→ <strong>Maltose</strong> →(Maltase)→ <strong>Glucose</strong> →(Zymase)→ <strong>Ethanol</strong><br>This is how alcohol is brewed. JEE loves asking about which enzyme goes where.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ═══════════════════════════════════════════════
+// SMILES DATA
+// ═══════════════════════════════════════════════
+const structureData = {
+  'aa-structs': [
+    { id:'gly', name:'Glycine', smiles:'NCC(=O)O', note:'Simplest AA, no chirality' },
+    { id:'ala', name:'Alanine', smiles:'C[C@@H](N)C(=O)O', note:'Smallest chiral AA' },
+    { id:'phe', name:'Phenylalanine', smiles:'N[C@@H](Cc1ccccc1)C(=O)O', note:'Essential, aromatic' },
+    { id:'tyr', name:'Tyrosine', smiles:'N[C@@H](Cc1ccc(O)cc1)C(=O)O', note:'Millon test +ve' },
+    { id:'cys', name:'Cysteine', smiles:'N[C@@H](CS)C(=O)O', note:'Has –SH group' },
+    { id:'lys', name:'Lysine', smiles:'NCCCC[C@@H](N)C(=O)O', note:'Basic AA, essential' },
+  ],
+  'basic-structs': [
+    { id:'gly2', name:'α-Amino acid', smiles:'NCC(=O)O', note:'General backbone' },
+    { id:'zwit', name:'Zwitterion (Gly)', smiles:'[NH3+]CC(=O)[O-]', note:'Dipolar ion form' },
+  ],
+  'glucose-structs': [
+    { id:'glcopen', name:'D-Glucose (open)', smiles:'OC[C@@H](O)[C@H](O)[C@@H](O)[C@H](O)C=O', note:'Open chain, aldehyde visible' },
+    { id:'aglc', name:'α-D-Glucopyranose', smiles:'OC[C@H]1O[C@@H](O)[C@H](O)[C@@H](O)[C@@H]1O', note:'OH at C1 = axial (down in Haworth)' },
+    { id:'bglc', name:'β-D-Glucopyranose', smiles:'OC[C@H]1O[C@H](O)[C@H](O)[C@@H](O)[C@@H]1O', note:'OH at C1 = equatorial (up), more stable' },
+  ],
+  'fructose-structs': [
+    { id:'fru', name:'D-Fructose (open)', smiles:'OC[C@H](O)[C@@H](O)[C@H](O)C(=O)CO', note:'Ketohexose, C=O at C2' },
+  ],
+  'base-structs': [
+    { id:'ade', name:'Adenine', smiles:'Nc1ncnc2[nH]cnc12', note:'Purine, pairs with T (DNA) or U (RNA)' },
+    { id:'gua', name:'Guanine', smiles:'Nc1nc2[nH]cnc2c(=O)[nH]1', note:'Purine, 3 H-bonds with C' },
+    { id:'cyt', name:'Cytosine', smiles:'Nc1ccnc(=O)[nH]1', note:'Pyrimidine, 3 H-bonds with G' },
+    { id:'thy', name:'Thymine', smiles:'Cc1cnc(=O)[nH]c1=O', note:'Pyrimidine, DNA only' },
+    { id:'ura', name:'Uracil', smiles:'O=c1cc[nH]c(=O)[nH]1', note:'Pyrimidine, RNA only (replaces T)' },
+  ]
+};
+
+// ═══════════════════════════════════════════════
+// RENDER SMILES
+// ═══════════════════════════════════════════════
+function renderStructures() {
+  if (typeof SmilesDrawer === 'undefined') return;
+  const drawer = new SmilesDrawer.Drawer({ width: 150, height: 110, themes: { dark: { C: '#e8e8f0', O: '#f87171', N: '#60a5fa', S: '#fbbf24', P: '#c084fc', F: '#4ade80', CL: '#4ade80', BR: '#fb923c', I: '#a78bfa', BACKGROUND: '#1a1a24' } } });
+  for (const [containerId, items] of Object.entries(structureData)) {
+    const container = document.getElementById(containerId);
+    if (!container) continue;
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'struct-card';
+      card.onclick = () => openModal(item.name, item.smiles, item.note);
+      const canvas = document.createElement('canvas');
+      canvas.id = 'c-' + item.id;
+      canvas.width = 150;
+      canvas.height = 110;
+      const label = document.createElement('div');
+      label.className = 'struct-label';
+      label.textContent = item.name;
+      card.appendChild(canvas);
+      card.appendChild(label);
+      container.appendChild(card);
+      SmilesDrawer.parse(item.smiles, tree => {
+        drawer.draw(tree, canvas, 'dark', false);
+      }, err => {
+        canvas.style.display = 'none';
+        const errDiv = document.createElement('div');
+        errDiv.style.cssText = 'color:#666;font-size:0.7rem;padding:10px;';
+        errDiv.textContent = item.smiles.substring(0,20)+'...';
+        card.insertBefore(errDiv, label);
+      });
+    });
+  }
+}
+
+function openModal(name, smiles, note) {
+  document.getElementById('modal-title').textContent = name;
+  document.getElementById('modal-smiles').textContent = 'SMILES: ' + smiles;
+  document.getElementById('modal-note').textContent = note || '';
+  const canvas = document.getElementById('modal-canvas');
+  if (typeof SmilesDrawer !== 'undefined') {
+    const drawer = new SmilesDrawer.Drawer({ width: 400, height: 280, themes: { dark: { C: '#e8e8f0', O: '#f87171', N: '#60a5fa', S: '#fbbf24', P: '#c084fc', F: '#4ade80', BACKGROUND: '#111118' } } });
+    SmilesDrawer.parse(smiles, tree => drawer.draw(tree, canvas, 'dark', false), () => {});
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+// ═══════════════════════════════════════════════
+// ACCORDION
+// ═══════════════════════════════════════════════
+function toggleCard(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+  const scrollTop = document.getElementById('scrollTop');
+  scrollTop.style.display = winScroll > 300 ? 'flex' : 'none';
+});
+
+// Intersection observer for section nav
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      document.querySelectorAll('.sec-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('onclick')?.includes(id));
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderStructures();
+});
+</script>
+</body>
+</html>
